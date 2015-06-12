@@ -20,9 +20,10 @@ def get(name):
     """Retrieve the snippet with a given name."""
     logging.info("Retrieving snippet {!r}".format(name))
     cursor = connection.cursor()
-    command = "select (%s) from snippets"
-    cursor.execute(command, name)
-    cursor.fetchone()
+    command = "select %s from snippets"
+    cursor.execute(command, (name, name))
+    row = cursor.fetchone()
+    connection.commit()
     logging.debug("Snippet retrieved successfully.")
     return row[0]
 
